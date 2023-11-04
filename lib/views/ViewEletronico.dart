@@ -34,7 +34,7 @@ class _ViewEletronico extends State<ViewEletronico> {
       body: FutureBuilder(
         future: database.retrieveEletronicos(),
         builder: (BuildContext context, AsyncSnapshot<List<Eletronico>> snapshot)  {
-          if (snapshot.hasData) {
+          if (snapshot.hasData && snapshot.data != null && snapshot.data!.isNotEmpty) {
             return ListView.builder(
               itemCount: snapshot.data?.length,
               itemBuilder: (BuildContext context, int index) {
@@ -62,17 +62,18 @@ class _ViewEletronico extends State<ViewEletronico> {
                 );
               }
             );
-          } else {
-            addEletronico();
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
+          } else {
+            return Center(
+              child: ElevatedButton(
+                onPressed: () => Navigator.pushNamed(context, '/eletronico/send'),
+                child: const Text("Adiciona novo Eletrônico"),
+              ),
+            );
           }
         } 
       ),
     );
-  }
-  
-  void addEletronico() {
-    Eletronico newEletronico = Eletronico(name: "Dell G15", categoria: "Laptop", valor: 8400.0);
-    database.insertData('eletronico', newEletronico);
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:database/models/Eletronico.dart';
 import 'package:database/models/Endereco.dart';
 import 'package:database/models/ModelPadrao.dart';
@@ -31,8 +29,8 @@ class DatabaseHandler {
         categoria TEXT NOT NULL,
         valor  REAL
       )''');
-      },
-      version: 1, 
+    },
+    version: 1, 
     );
   }
 
@@ -67,6 +65,6 @@ class DatabaseHandler {
       tableName, 
       where: "id = ?",
       whereArgs: [id]
-      );
+    );
   }
 }

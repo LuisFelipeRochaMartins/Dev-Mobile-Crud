@@ -92,7 +92,7 @@ class _ViewCadastroContato extends State<ViewCadastroEletronico> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Enviando Dados')),
                     );
-                    Navigator.pop(context);
+                    Navigator.popUntil(context, ModalRoute.withName('/'));
                   }
                 },
                 child: const Text('Enviar'),

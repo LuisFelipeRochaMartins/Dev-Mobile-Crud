@@ -34,7 +34,7 @@ class _ViewContato extends State<ViewContato> {
       body: FutureBuilder(
         future: database.retrieveContatos(),
         builder: (BuildContext context, AsyncSnapshot<List<Contato>> snapshot)  {
-          if (snapshot.hasData) {
+          if (snapshot.hasData && snapshot.data != null && snapshot.data!.isNotEmpty) {
             return ListView.builder(
               itemCount: snapshot.data?.length,
               itemBuilder: (BuildContext context, int index) {
@@ -62,18 +62,18 @@ class _ViewContato extends State<ViewContato> {
                 );
               }
             );
-          } else {
-            addContatos();
-            database.retrieveContatos();
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
+          } else {
+            return Center(
+              child: ElevatedButton(
+                onPressed: () => Navigator.pushNamed(context, '/contato/send'),
+                child: const Text("Adiciona novo Contato"),
+              ),
+            );
           }
         } 
       ),
     );
-  }
-
-  void addContatos() {
-    Contato newContato = Contato(name: 'teste', phoneNumber: "4002-8922");
-    database.insertData('contato', newContato);
   }
 }

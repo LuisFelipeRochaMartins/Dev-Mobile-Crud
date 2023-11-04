@@ -34,7 +34,7 @@ class _ViewEndereco extends State<ViewEndereco> {
       body: FutureBuilder(
         future: database.retrieveEnderecos(),
         builder: (BuildContext context, AsyncSnapshot<List<Endereco>> snapshot)  {
-          if (snapshot.hasData) {
+          if (snapshot.hasData && snapshot.data != null && snapshot.data!.isNotEmpty) {
             return ListView.builder(
               itemCount: snapshot.data?.length,
               itemBuilder: (BuildContext context, int index) {
@@ -62,17 +62,18 @@ class _ViewEndereco extends State<ViewEndereco> {
                 );
               }
             );
-          } else {
-            addAddress();
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
+          } else {
+            return Center(
+              child: ElevatedButton(
+                onPressed: () => Navigator.pushNamed(context, '/endereco/send'),
+                child: const Text("Adiciona novo Endereço"),
+              ),
+            );
           }
         } 
       ),
     );
-  }
-  
-  void addAddress() {
-    Endereco newEndereco = Endereco(cidade: "Pouso Redondo", bairro: "Arno Siewerdt", rua: "Itajaí");
-    database.insertData('endereco', newEndereco);
   }
 }
