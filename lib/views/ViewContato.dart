@@ -67,7 +67,7 @@ class _ViewContato extends State<ViewContato> {
           } else {
             return Center(
               child: ElevatedButton(
-                onPressed: () => Navigator.pushNamed(context, '/contato/send'),
+                onPressed: () => Navigator.pushNamed(context, '/contatos/send'),
                 child: const Text("Adiciona novo Contato"),
               ),
             );
